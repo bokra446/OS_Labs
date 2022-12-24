@@ -14,6 +14,7 @@ void exitHandler() {
 	fprintf(stdout, "\n Call of exit handler\n");
 	fprintf(stdout, "Exit from %d\n", getpid());
   fprintf(stdout, "Oh noooo, you could do it\n I die. Bye\n");
+  exit(EXIT_SUCCESS);
 }
 
 void sigIntHandler(int signum) {
@@ -64,7 +65,7 @@ int main(){
 			sleep(30);
 			break;
 	}
-	while(n<25)
+	while(n<15)
 		sleep(1);
 	return 0;
 }
