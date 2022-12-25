@@ -13,21 +13,21 @@ static volatile sig_atomic_t n = 0;
 void exitHandler() {
 	fprintf(stdout, "\n Call of exit handler\n");
 	fprintf(stdout, "Exit from %d\n", getpid());
-  fprintf(stdout, "Oh noooo, you could do it\n I die. Bye\n");
-  exit(EXIT_SUCCESS);
+	fprintf(stdout, "Oh noooo, you could do it\n I die. Bye\n");
+	exit(EXIT_SUCCESS);
 }
 
 void sigIntHandler(int signum) {
 	fprintf(stdout, "\n %d SIGINT caught from evil Wolf\n", getpid());
 	fprintf(stdout, "%d (%s)\n", signum, strsignal(signum));
-  ++n;
-  fprintf(stdout, "\n Nice try. Press it again)\n");
+	++n;
+	fprintf(stdout, "\n Nice try. Press it again)\n");
 }
 
 void sigTermHandler(int signum) {
 	fprintf(stdout, "\n %d SIGTERM caught from evil Wolf \n", getpid());
 	fprintf(stdout, "%d (%s)\n", signum, strsignal(signum));
-  fprintf(stdout, "Why? I will play :) \n");
+	fprintf(stdout, "Why? I will play :) \n");
 }
 /*
 void handler(int s){
@@ -40,17 +40,16 @@ void handler(int s){
 */
 
 int main(){
-  printf("[CURRENT]: PID = %6d; PPID = %6d\n", getpid(), getppid());
-
+	printf("[CURRENT]: PID = %6d; PPID = %6d\n", getpid(), getppid());
 	if (atexit(exitHandler)) {
 		fprintf(stderr, "Set atexit error. I will cry:(\n");
 		exit(-2);
 	}
 	signal(SIGINT, sigIntHandler);
-  struct sigaction sigTerm;
-  sigTerm.sa_handler = sigTermHandler;
-  sigaction(SIGTERM, &sigTerm, NULL);
-  fprintf(stdout, "Forked\n");
+	struct sigaction sigTerm;
+	sigTerm.sa_handler = sigTermHandler;
+	sigaction(SIGTERM, &sigTerm, NULL);
+	fprintf(stdout, "Forked\n");
 	pid_t pid = fork();
 	switch(pid) {
 		case -1:
