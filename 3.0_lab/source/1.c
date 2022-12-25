@@ -21,7 +21,7 @@ int shmid;
 void handler(){
 	int save_errno = errno;
 	errno = save_errno;
-  flag = false;
+	flag = false;
 }
 
 int main(int argc, char** argv) {
@@ -59,15 +59,15 @@ int main(int argc, char** argv) {
 
 	while(flag) {
 		struct tm* time_info;
-    time_t rawtime;
-    time(&rawtime);
+    	time_t rawtime;
+    	time(&rawtime);
 		time_info = localtime(&rawtime);
 		char str[1024];
 		sprintf(str, "[PARENT] {%.2d:%.2d:%.2d} pid = %d", time_info->tm_hour, time_info->tm_min, time_info->tm_sec, getpid());
 		strcpy(shm_ptr, str);
 		sleep(5);
 	}	
-  shmdt(shm_ptr);
+	shmdt(shm_ptr);
 	shmctl(shmid, IPC_RMID, NULL);
 
 	printf("Destroying the shared memory segment\n");
