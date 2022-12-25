@@ -12,7 +12,9 @@
 #include <time.h>
 #include <errno.h>
 #include <signal.h>
+#include <stdbool.h>
 
+bool flag = true;
 const char* shmName = "shmem_file";
 size_t shmSize = 64;
 char* shm_ptr;
@@ -22,14 +24,7 @@ int semid;
 void handler(){
 	int save_errno = errno;
 	errno = save_errno;
-  shmdt(shm_ptr);
-	shmctl(shmid, IPC_RMID, NULL);
-	semctl(semid, 0, IPC_RMID);
-
-	printf("[first] Destroying the shared memory segment and semaphore\n");
-	remove(shmName);
-
-  exit(EXIT_SUCCESS);
+  flag = false;
 }
 
 int main(int argc, char** argv) {
@@ -75,13 +70,13 @@ int main(int argc, char** argv) {
 
 	semctl(semid, 0, SETVAL, (int)0); // init semaphore value with 0
 	
-	while(1) {
+	while(flag) {
 		struct tm* time_info;
     time_t rawtime;
     time(&rawtime);
 		time_info = localtime(&rawtime);
 		char str[1024];
-		sprintf(str, "[PARENT] {%2d:%2d:%2d} pid = %d", time_info->tm_hour, time_info->tm_min, time_info->tm_sec, getpid());
+		sprintf(str, "[PARENT] {%.2d:%.2d:%.2d} pid = %d", time_info->tm_hour, time_info->tm_min, time_info->tm_sec, getpid());
 		strcpy(shm_ptr, str);
 		int res = semop(semid, &setSem, 1);
 		if (res == -1) {
@@ -90,6 +85,11 @@ int main(int argc, char** argv) {
 		}
 		sleep(5);
 	}
-	
+  shmdt(shm_ptr);
+	shmctl(shmid, IPC_RMID, NULL);
+	semctl(semid, 0, IPC_RMID);
+
+	printf("[first] Destroying the shared memory segment and semaphore\n");
+	remove(shmName);	
 	return 0;
 }

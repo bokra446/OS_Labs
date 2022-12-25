@@ -23,7 +23,7 @@ int main() {
     time(&rawtime);
 		time_info = localtime(&rawtime);
 		char str[1024];
-		sprintf(str, "[PARENT] {%2d:%2d:%2d} pid = %d", time_info->tm_hour, time_info->tm_min, time_info->tm_sec, getpid());
+		sprintf(str, "[PARENT] {%.2d:%.2d:%.2d} pid = %d", time_info->tm_hour, time_info->tm_min, time_info->tm_sec, getpid());
 		
 		close(fd[0]);
 		int i = write(fd[1], str, sizeof(str));
@@ -39,7 +39,7 @@ int main() {
     time(&rawtime);
 		time_info = localtime(&rawtime);
 		char buf[1024];
-		printf("[CHILD] {%2d:%2d:%2d}: ", time_info->tm_hour, time_info->tm_min, time_info->tm_sec);
+		printf("[CHILD] {%.2d:%.2d:%.2d}: ", time_info->tm_hour, time_info->tm_min, time_info->tm_sec);
 		
 		close(fd[1]);
     int len;
