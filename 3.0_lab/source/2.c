@@ -37,9 +37,9 @@ int main(int argc, char** argv) {
 	shm_ptr = shmat(shmid, NULL, SHM_RDONLY);
 	printf("[second] shm_ptr: %p\n", shm_ptr);
 
-  struct tm* time_info;
-  time_t rawtime;
-  time(&rawtime);
+	struct tm* time_info;
+	time_t rawtime;
+	time(&rawtime);
 	time_info = localtime(&rawtime);
 	printf("{%.2d:%.2d:%.2d}pid = %d reading shmem: %s\n", time_info->tm_hour, time_info->tm_min, time_info->tm_sec, getpid(), shm_ptr);
 	shmdt(shm_ptr);	
