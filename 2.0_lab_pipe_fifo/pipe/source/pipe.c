@@ -33,7 +33,7 @@ int main() {
 		close(fd[1]);
 	}
 	else {
-		sleep(5);
+		sleep(1);
 		struct tm* time_info;
     time_t rawtime;
     time(&rawtime);
