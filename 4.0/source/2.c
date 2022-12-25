@@ -53,8 +53,8 @@ int main(int argc, char** argv) {
 	printf("[second] Waiting...\n");
 	
 	struct tm* time_info;
-  time_t rawtime;
-  time(&rawtime);
+	time_t rawtime;
+	time(&rawtime);
 	time_info = localtime(&rawtime);
 	printf("{%.2d:%.2d:%.2d} pid = %d reading shmem: %s\n", time_info->tm_hour, time_info->tm_min, time_info->tm_sec, getpid(), shm_ptr);
 	shmdt(shm_ptr);	
