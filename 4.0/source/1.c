@@ -24,14 +24,14 @@ int semid;
 void handler(){
 	int save_errno = errno;
 	errno = save_errno;
-  flag = false;
+  	flag = false;
 }
 
 int main(int argc, char** argv) {
 	(void)argc;
 	(void)argv;
-
-  signal(SIGINT, handler);
+	
+	signal(SIGINT, handler);
 	signal(SIGTERM, handler);
 
 	struct sembuf setSem = {0, 1, 0};
@@ -72,8 +72,8 @@ int main(int argc, char** argv) {
 	
 	while(flag) {
 		struct tm* time_info;
-    time_t rawtime;
-    time(&rawtime);
+    	time_t rawtime;
+    	time(&rawtime);
 		time_info = localtime(&rawtime);
 		char str[1024];
 		sprintf(str, "[PARENT] {%.2d:%.2d:%.2d} pid = %d", time_info->tm_hour, time_info->tm_min, time_info->tm_sec, getpid());
@@ -85,7 +85,8 @@ int main(int argc, char** argv) {
 		}
 		sleep(5);
 	}
-  shmdt(shm_ptr);
+	
+	shmdt(shm_ptr);
 	shmctl(shmid, IPC_RMID, NULL);
 	semctl(semid, 0, IPC_RMID);
 
