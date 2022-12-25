@@ -12,7 +12,7 @@ char arrCounter[] = {'0', '\0'};
 void* writer() {
 	while (1) {
 		pthread_mutex_lock(&mutex);
-    printf("[writer] make counter +1\n");
+    	printf("[writer] make counter +1\n");
 		arrCounter[0] += 1;
 		pthread_cond_broadcast(&condition);
 		pthread_mutex_unlock(&mutex);
@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
 	for (int i = 0; i < threadsCount - 1; ++i) {
 		pthread_create(&thread[i], NULL, reader, NULL);
 	}
-  pthread_create(&thread[10], NULL, writer, NULL);
+	pthread_create(&thread[10], NULL, writer, NULL);
 
 	for (int i = 0; i < threadsCount; ++i) {
 		pthread_join(thread[i], NULL);
