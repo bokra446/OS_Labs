@@ -13,7 +13,6 @@ void* writer() {
 	while (1) {
 		pthread_mutex_lock(&mutex);
 		arrCounter[0] += 1;
-		sleep(1);
 		pthread_cond_broadcast(&condition);
 		pthread_mutex_unlock(&mutex);
 		sleep(5);
@@ -26,11 +25,9 @@ void* reader() {
 		pthread_mutex_lock(&mutex);
 		pthread_cond_wait(&condition, &mutex);
 		printf("[reader] %lx reading array: %s\n", pthread_self(), arrCounter);
-		sleep(1);
 		pthread_mutex_unlock(&mutex);
 		sleep(5);
 	}
-
 	pthread_exit(0);
 }
 
@@ -42,10 +39,10 @@ int main(int argc, char** argv) {
 	int threadsCount = 11;
 
 	pthread_t thread[threadsCount];
-	pthread_create(&thread[0], NULL, writer, NULL);
-	for (int i = 1; i < threadsCount; ++i) {
+	for (int i = 0; i < threadsCount - 1; ++i) {
 		pthread_create(&thread[i], NULL, reader, NULL);
 	}
+  pthread_create(&thread[10], NULL, writer, NULL);
 
 	for (int i = 0; i < threadsCount; ++i) {
 		pthread_join(thread[i], NULL);
