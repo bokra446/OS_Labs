@@ -22,37 +22,37 @@ int main() {
 	
 	pid = fork();
 	if (pid > 0) {
-    struct tm* time_info;
-    time_t rawtime;
-    time(&rawtime);
+    	struct tm* time_info;
+    	time_t rawtime;
+    	time(&rawtime);
 		time_info = localtime(&rawtime);
 		char str[1024];
 		sprintf(str, "[PARENT] {%.2d:%.2d:%.2d} pid = %d", time_info->tm_hour, time_info->tm_min, time_info->tm_sec, getpid());
 		
 		fd = open(fifo_file, O_WRONLY);
 		int i = write(fd, str, sizeof(str));
-    if(i == -1){ 
-      printf("Write error in fifo_file");
-    }
+    	if(i == -1){ 
+			printf("Write error in fifo_file");
+    	}
 		close(fd);
 	}
 	else {
 		sleep(5);
 		struct tm* time_info;
-    time_t rawtime;
-    time(&rawtime);
+    	time_t rawtime;
+    	time(&rawtime);
 		time_info = localtime(&rawtime);
 		char buf[1024];
 		printf("[CHILD] {%.2d:%.2d:%.2d}: ", time_info->tm_hour, time_info->tm_min, time_info->tm_sec);
 		
 		fd = open(fifo_file, O_RDONLY);
-    int len;
+    	int len;
 		if ((len = read(fd, buf, 1024)) != 0) {
 			printf("%s\n", buf);
 		}
-    else{
-       printf("Read error in fifo_file");
-    }
+    	else{
+		   printf("Read error in fifo_file");
+    	}
 		close(fd);
 	}
 	return 0;
