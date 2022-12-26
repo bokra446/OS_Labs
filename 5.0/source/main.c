@@ -10,7 +10,7 @@ char arrCounter[] = {'0', '\0'};
 void* writer() {
 	while (1) {
 		pthread_mutex_lock(&mtx);
-    	printf("[writer] make counter +1\n");
+    		printf("[writer] make counter +1\n");
 		arrCounter[0] += 1;
 		sleep(1);
 		pthread_mutex_unlock(&mtx);
